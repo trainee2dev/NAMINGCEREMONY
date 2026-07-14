@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -10,178 +11,195 @@
 <style>
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Georgia",serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Georgia",serif;
 }
 
 body{
 
-height:100vh;
+    height:100vh;
 
-display:flex;
-justify-content:center;
-align-items:center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-overflow:hidden;
+    overflow:hidden;
 
-background:
-linear-gradient(135deg,#8B0000,#FF8C00,#FFD700);
+    background:
+    linear-gradient(135deg,#8B0000,#FF8C00,#FFD700);
 
-color:white;
+    color:white;
 
 }
-
 
 /* Start Screen */
 
 .start{
 
-text-align:center;
+    text-align:center;
 
 }
-
 
 .start h1{
 
-font-size:35px;
+    font-size:35px;
 
-color:#fff8dc;
+    color:#fff8dc;
 
-margin-bottom:30px;
+    margin-bottom:30px;
 
 }
-
-
 
 button{
 
-padding:18px 35px;
+    padding:18px 35px;
 
-border:none;
+    border:none;
 
-border-radius:40px;
+    border-radius:40px;
 
-font-size:20px;
+    font-size:20px;
 
-background:#ffd700;
+    background:#ffd700;
 
-color:#8B0000;
+    color:#8B0000;
 
-font-weight:bold;
+    font-weight:bold;
 
-cursor:pointer;
+    cursor:pointer;
 
-box-shadow:0 0 25px gold;
+    box-shadow:0 0 25px gold;
 
 }
-
-
 
 /* Reveal Box */
 
 .reveal{
 
-display:none;
+    display:none;
 
-text-align:center;
+    text-align:center;
 
-background:rgba(255,255,255,.15);
+    background:rgba(255,255,255,.15);
 
-padding:40px;
+    padding:40px;
 
-border:3px solid gold;
+    border:3px solid gold;
 
-border-radius:25px;
+    border-radius:25px;
 
-box-shadow:0 0 40px gold;
+    box-shadow:0 0 40px gold;
 
 }
-
-
 
 .om{
 
-font-size:60px;
+    font-size:60px;
 
 }
-
-
 
 .title{
 
-font-size:25px;
+    font-size:25px;
 
-color:#ffe082;
+    color:#ffe082;
 
-margin-top:15px;
+    margin-top:15px;
 
 }
-
-
 
 .name{
 
-font-size:65px;
+    font-size:65px;
 
-font-weight:bold;
+    font-weight:bold;
 
-margin-top:30px;
+    margin-top:30px;
 
-color:white;
+    color:white;
 
-text-shadow:
+    text-shadow:
+    0 0 10px gold,
+    0 0 30px orange,
+    0 0 60px gold;
 
-0 0 10px gold,
-
-0 0 30px orange,
-
-0 0 60px gold;
-
-animation:zoom 2s;
+    animation:zoom 2s;
 
 }
-
-
 
 .message{
 
-font-size:25px;
+    font-size:25px;
 
-margin-top:25px;
+    margin-top:25px;
 
-color:#fff3cd;
+    color:#fff3cd;
 
 }
-
-
 
 .mother{
 
-font-size:30px;
+    font-size:30px;
 
-margin-top:20px;
+    margin-top:20px;
 
-color:#FFD700;
+    color:#FFD700;
 
 }
-
-
 
 .flower{
 
-position:absolute;
+    position:absolute;
 
-top:-40px;
+    top:-40px;
 
-font-size:30px;
+    font-size:30px;
 
-animation:fall linear infinite;
+    animation:fall linear infinite;
 
 }
 
+.music-toggle{
 
+    display:none;
+
+    position:fixed;
+
+    top:20px;
+
+    right:20px;
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:30px;
+
+    background:#FFD700;
+
+    color:#8B0000;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:0 0 15px gold;
+
+    z-index:9999;
+
+    transition:.3s;
+
+}
+
+.music-toggle:hover{
+
+    transform:scale(1.05);
+
+}
 
 @keyframes zoom{
 
@@ -203,8 +221,6 @@ transform:scale(1);
 
 }
 
-
-
 @keyframes fall{
 
 to{
@@ -215,42 +231,11 @@ transform:translateY(110vh) rotate(360deg);
 
 }
 
-
-
-.music-toggle{
-  display:none;
-  position:fixed;
-  top:16px;
-  right:16px;
-  z-index:9999;
-  padding:11px 17px;
-  border:none;
-  border-radius:30px;
-  font-size:15px;
-  background:#ffd700;
-  color:#8B0000;
-  font-weight:bold;
-  box-shadow:0 0 18px rgba(255,215,0,.9);
-  cursor:pointer;
-}
-#youtubeMusic{
-  position:fixed;
-  width:1px;
-  height:1px;
-  left:-9999px;
-  top:-9999px;
-  opacity:0;
-  pointer-events:none;
-  border:0;
-}
-
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="start" id="start">
 
@@ -259,39 +244,24 @@ transform:translateY(110vh) rotate(360deg);
 </h1>
 
 <button onclick="revealName()">
-
 Click Here ✨
-
 </button>
 
 </div>
 
-
-
-
 <div class="reveal" id="reveal">
 
-
 <div class="om">
-
 🕉️
-
 </div>
-
 
 <div class="title">
-
 With the Blessings of Lord Ganesha
-
 </div>
-
 
 <div class="name">
-
 Hetvik Sri Teja
-
 </div>
-
 
 <div class="message">
 
@@ -303,86 +273,106 @@ Hetvik means a loving heart with wisdom and divine blessings
 
 </div>
 
-
 <div class="mother">
-
-❤️ Teja: "Son of Teja" ❤️
+❤️ Son of Teja ❤️
+</div>
 
 </div>
 
+<!-- Background Music -->
 
-</div>
+<audio id="bgMusic" preload="auto" loop>
 
+    <source src="krishna.mp3" type="audio/mpeg">
 
+</audio>
 
+<button id="musicToggle" class="music-toggle">
 
+🔊 Music On
 
-<iframe
-  id="youtubeMusic"
-  title="Background music"
-  allow="autoplay; encrypted-media"
-  referrerpolicy="strict-origin-when-cross-origin">
-</iframe>
-
-<button id="musicToggle" class="music-toggle" type="button">
-  🔊 Music On
 </button>
 
 <script>
 
+const bgMusic = document.getElementById("bgMusic");
 
+const musicBtn = document.getElementById("musicToggle");
 
-const MUSIC_URL = "https://www.youtube.com/embed/z81JyFZ9nAY?autoplay=1&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&end=30";
 let musicPlaying = false;
 
 function startMusic(){
-  const player = document.getElementById("youtubeMusic");
-  player.src = MUSIC_URL + "&cache=" + Date.now();
-  musicPlaying = true;
-  document.getElementById("musicToggle").innerHTML = "🔊 Music On";
+
+    bgMusic.play().then(()=>{
+
+        musicPlaying=true;
+
+        musicBtn.innerHTML="🔊 Music On";
+
+    }).catch(err=>{
+
+        console.log(err);
+
+    });
+
 }
 
 function stopMusic(){
-  const player = document.getElementById("youtubeMusic");
-  player.src = "";
-  musicPlaying = false;
-  document.getElementById("musicToggle").innerHTML = "🔇 Music Off";
+
+    bgMusic.pause();
+
+    musicPlaying=false;
+
+    musicBtn.innerHTML="🔇 Music Off";
+
 }
 
 function revealName(){
-  document.getElementById("start").style.display="none";
-  document.getElementById("reveal").style.display="block";
 
-  const btn = document.getElementById("musicToggle");
-  btn.style.display = "block";
+    document.getElementById("start").style.display="none";
 
-  startMusic();
+    document.getElementById("reveal").style.display="block";
 
-  let flowers=["🌸","🌺","🌼","🪷"];
+    musicBtn.style.display="block";
 
-  for(let i=0;i<50;i++){
-    let f=document.createElement("div");
-    f.className="flower";
-    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
-    f.style.left=Math.random()*100+"vw";
-    f.style.animationDuration=(5+Math.random()*8)+"s";
-    document.body.appendChild(f);
-  }
+    startMusic();
+
+    let flowers=["🌸","🌺","🌼","🪷"];
+
+    for(let i=0;i<50;i++){
+
+        let f=document.createElement("div");
+
+        f.className="flower";
+
+        f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+
+        f.style.left=Math.random()*100+"vw";
+
+        f.style.animationDuration=(5+Math.random()*8)+"s";
+
+        document.body.appendChild(f);
+
+    }
+
 }
 
-document.addEventListener("DOMContentLoaded", function(){
-  const btn = document.getElementById("musicToggle");
+musicBtn.addEventListener("click",()=>{
 
-  btn.addEventListener("click", function(){
     if(musicPlaying){
-      stopMusic();
-    } else {
-      startMusic();
+
+        stopMusic();
+
+    }else{
+
+        startMusic();
+
     }
-  });
+
 });
+
 </script>
 
-
 </body>
+
 </html>

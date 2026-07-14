@@ -217,65 +217,31 @@ transform:translateY(110vh) rotate(360deg);
 
 
 
-.music-panel{
+.music-toggle{
   display:none;
   position:fixed;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%);
+  top:16px;
+  right:16px;
   z-index:9999;
-  width:min(92vw,420px);
-  padding:14px;
-  border:2px solid gold;
-  border-radius:18px;
-  background:rgba(90,0,0,.96);
-  box-shadow:0 0 25px rgba(255,215,0,.8);
-  text-align:center;
-}
-.music-panel h3{
-  margin:0 0 12px;
-  font-size:17px;
-  color:#fff3cd;
-}
-.music-actions{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.music-actions button,
-.music-actions a{
   padding:11px 17px;
   border:none;
-  border-radius:25px;
-  font-size:14px;
-  font-weight:bold;
-  text-decoration:none;
-  cursor:pointer;
+  border-radius:30px;
+  font-size:15px;
   background:#ffd700;
   color:#8B0000;
-  box-shadow:none;
-}
-#youtubeWrap{
-  display:none;
-  margin-top:12px;
+  font-weight:bold;
+  box-shadow:0 0 18px rgba(255,215,0,.9);
+  cursor:pointer;
 }
 #youtubeMusic{
-  width:100%;
-  height:140px;
+  position:fixed;
+  width:1px;
+  height:1px;
+  left:-9999px;
+  top:-9999px;
+  opacity:0;
+  pointer-events:none;
   border:0;
-  border-radius:12px;
-  background:#000;
-}
-#localNotice{
-  display:none;
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(255,255,255,.1);
-  color:#fff3cd;
-  font-size:13px;
-  line-height:1.45;
 }
 
 </style>
@@ -351,67 +317,49 @@ Hetvik means a loving heart with wisdom and divine blessings
 
 
 
-<div id="musicPanel" class="music-panel">
-  <h3>Enchanting Krishna Flute — First 30 Seconds</h3>
+<iframe
+  id="youtubeMusic"
+  title="Background music"
+  allow="autoplay; encrypted-media"
+  referrerpolicy="strict-origin-when-cross-origin">
+</iframe>
 
-  <div class="music-actions">
-    <button id="playMusicBtn" type="button">▶️ Play Music</button>
-    <button id="stopMusicBtn" type="button">⏹ Stop</button>
-    <a href="https://youtu.be/z81JyFZ9nAY" target="_blank" rel="noopener">Open on YouTube</a>
-  </div>
-
-  <div id="youtubeWrap">
-    <iframe
-      id="youtubeMusic"
-      title="Enchanting Krishna Flute — First 30 Seconds"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <div id="localNotice">
-    YouTube does not allow embedded playback inside a downloaded HTML file.
-    Upload this page to Netlify, GitHub Pages, or Vercel, then the Play Music
-    button will work normally. Until then, use “Open on YouTube”.
-  </div>
-</div>
+<button id="musicToggle" class="music-toggle" type="button">
+  🔊 Music On
+</button>
 
 <script>
 
 
 
-const MUSIC_URL = "https://www.youtube.com/embed/z81JyFZ9nAY?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1&end=30";
-const IS_LOCAL_FILE = window.location.protocol === "file:";
+const MUSIC_URL = "https://www.youtube.com/embed/z81JyFZ9nAY?autoplay=1&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&end=30";
+let musicPlaying = false;
 
-function playMusic(){
-  if(IS_LOCAL_FILE){
-    document.getElementById("localNotice").style.display = "block";
-    window.open("https://youtu.be/z81JyFZ9nAY", "_blank");
-    return;
-  }
-
-  const wrap = document.getElementById("youtubeWrap");
-  const frame = document.getElementById("youtubeMusic");
-  wrap.style.display = "block";
-  frame.src = MUSIC_URL + "&cache=" + Date.now();
+function startMusic(){
+  const player = document.getElementById("youtubeMusic");
+  player.src = MUSIC_URL + "&cache=" + Date.now();
+  musicPlaying = true;
+  document.getElementById("musicToggle").innerHTML = "🔊 Music On";
 }
 
 function stopMusic(){
-  const frame = document.getElementById("youtubeMusic");
-  frame.src = "";
-  document.getElementById("youtubeWrap").style.display = "none";
+  const player = document.getElementById("youtubeMusic");
+  player.src = "";
+  musicPlaying = false;
+  document.getElementById("musicToggle").innerHTML = "🔇 Music Off";
 }
 
 function revealName(){
   document.getElementById("start").style.display="none";
   document.getElementById("reveal").style.display="block";
-  document.getElementById("musicPanel").style.display="block";
 
-  if(IS_LOCAL_FILE){
-    document.getElementById("localNotice").style.display = "block";
-  }
+  const btn = document.getElementById("musicToggle");
+  btn.style.display = "block";
+
+  startMusic();
 
   let flowers=["🌸","🌺","🌼","🪷"];
+
   for(let i=0;i<50;i++){
     let f=document.createElement("div");
     f.className="flower";
@@ -423,8 +371,15 @@ function revealName(){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-  document.getElementById("playMusicBtn").addEventListener("click", playMusic);
-  document.getElementById("stopMusicBtn").addEventListener("click", stopMusic);
+  const btn = document.getElementById("musicToggle");
+
+  btn.addEventListener("click", function(){
+    if(musicPlaying){
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  });
 });
 </script>
 

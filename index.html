@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chinnodu Name Reveal</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Georgia",serif;
+}
+
+body{
+
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+
+background:
+linear-gradient(135deg,#8B0000,#FF8C00,#FFD700);
+
+color:white;
+
+}
+
+
+/* Start Screen */
+
+.start{
+
+text-align:center;
+
+}
+
+
+.start h1{
+
+font-size:35px;
+
+color:#fff8dc;
+
+margin-bottom:30px;
+
+}
+
+
+
+button{
+
+padding:18px 35px;
+
+border:none;
+
+border-radius:40px;
+
+font-size:20px;
+
+background:#ffd700;
+
+color:#8B0000;
+
+font-weight:bold;
+
+cursor:pointer;
+
+box-shadow:0 0 25px gold;
+
+}
+
+
+
+/* Reveal Box */
+
+.reveal{
+
+display:none;
+
+text-align:center;
+
+background:rgba(255,255,255,.15);
+
+padding:40px;
+
+border:3px solid gold;
+
+border-radius:25px;
+
+box-shadow:0 0 40px gold;
+
+}
+
+
+
+.om{
+
+font-size:60px;
+
+}
+
+
+
+.title{
+
+font-size:25px;
+
+color:#ffe082;
+
+margin-top:15px;
+
+}
+
+
+
+.name{
+
+font-size:65px;
+
+font-weight:bold;
+
+margin-top:30px;
+
+color:white;
+
+text-shadow:
+
+0 0 10px gold,
+
+0 0 30px orange,
+
+0 0 60px gold;
+
+animation:zoom 2s;
+
+}
+
+
+
+.message{
+
+font-size:25px;
+
+margin-top:25px;
+
+color:#fff3cd;
+
+}
+
+
+
+.mother{
+
+font-size:30px;
+
+margin-top:20px;
+
+color:#FFD700;
+
+}
+
+
+
+.flower{
+
+position:absolute;
+
+top:-40px;
+
+font-size:30px;
+
+animation:fall linear infinite;
+
+}
+
+
+
+@keyframes zoom{
+
+from{
+
+opacity:0;
+
+transform:scale(.2);
+
+}
+
+to{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
+}
+
+
+
+@keyframes fall{
+
+to{
+
+transform:translateY(110vh) rotate(360deg);
+
+}
+
+}
+
+
+
+.music-panel{
+  display:none;
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  z-index:9999;
+  width:min(92vw,420px);
+  padding:14px;
+  border:2px solid gold;
+  border-radius:18px;
+  background:rgba(90,0,0,.96);
+  box-shadow:0 0 25px rgba(255,215,0,.8);
+  text-align:center;
+}
+.music-panel h3{
+  margin:0 0 12px;
+  font-size:17px;
+  color:#fff3cd;
+}
+.music-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.music-actions button,
+.music-actions a{
+  padding:11px 17px;
+  border:none;
+  border-radius:25px;
+  font-size:14px;
+  font-weight:bold;
+  text-decoration:none;
+  cursor:pointer;
+  background:#ffd700;
+  color:#8B0000;
+  box-shadow:none;
+}
+#youtubeWrap{
+  display:none;
+  margin-top:12px;
+}
+#youtubeMusic{
+  width:100%;
+  height:140px;
+  border:0;
+  border-radius:12px;
+  background:#000;
+}
+#localNotice{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.1);
+  color:#fff3cd;
+  font-size:13px;
+  line-height:1.45;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="start" id="start">
+
+<h1>
+❤️ Do you want to know my Chinnodu name? ❤️
+</h1>
+
+<button onclick="revealName()">
+
+Click Here ✨
+
+</button>
+
+</div>
+
+
+
+
+<div class="reveal" id="reveal">
+
+
+<div class="om">
+
+🕉️
+
+</div>
+
+
+<div class="title">
+
+With the Blessings of Lord Ganesha
+
+</div>
+
+
+<div class="name">
+
+Hetvik Sri Teja
+
+</div>
+
+
+<div class="message">
+
+✨ Welcome Little Prince ✨
+
+<br><br>
+
+Hetvik means a loving heart with wisdom and divine blessings
+
+</div>
+
+
+<div class="mother">
+
+❤️ Teja: "Son of Teja" ❤️
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div id="musicPanel" class="music-panel">
+  <h3>Enchanting Krishna Flute — First 30 Seconds</h3>
+
+  <div class="music-actions">
+    <button id="playMusicBtn" type="button">▶️ Play Music</button>
+    <button id="stopMusicBtn" type="button">⏹ Stop</button>
+    <a href="https://youtu.be/z81JyFZ9nAY" target="_blank" rel="noopener">Open on YouTube</a>
+  </div>
+
+  <div id="youtubeWrap">
+    <iframe
+      id="youtubeMusic"
+      title="Enchanting Krishna Flute — First 30 Seconds"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div id="localNotice">
+    YouTube does not allow embedded playback inside a downloaded HTML file.
+    Upload this page to Netlify, GitHub Pages, or Vercel, then the Play Music
+    button will work normally. Until then, use “Open on YouTube”.
+  </div>
+</div>
+
+<script>
+
+
+
+const MUSIC_URL = "https://www.youtube.com/embed/z81JyFZ9nAY?autoplay=1&controls=1&rel=0&modestbranding=1&playsinline=1&end=30";
+const IS_LOCAL_FILE = window.location.protocol === "file:";
+
+function playMusic(){
+  if(IS_LOCAL_FILE){
+    document.getElementById("localNotice").style.display = "block";
+    window.open("https://youtu.be/z81JyFZ9nAY", "_blank");
+    return;
+  }
+
+  const wrap = document.getElementById("youtubeWrap");
+  const frame = document.getElementById("youtubeMusic");
+  wrap.style.display = "block";
+  frame.src = MUSIC_URL + "&cache=" + Date.now();
+}
+
+function stopMusic(){
+  const frame = document.getElementById("youtubeMusic");
+  frame.src = "";
+  document.getElementById("youtubeWrap").style.display = "none";
+}
+
+function revealName(){
+  document.getElementById("start").style.display="none";
+  document.getElementById("reveal").style.display="block";
+  document.getElementById("musicPanel").style.display="block";
+
+  if(IS_LOCAL_FILE){
+    document.getElementById("localNotice").style.display = "block";
+  }
+
+  let flowers=["🌸","🌺","🌼","🪷"];
+  for(let i=0;i<50;i++){
+    let f=document.createElement("div");
+    f.className="flower";
+    f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(5+Math.random()*8)+"s";
+    document.body.appendChild(f);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  document.getElementById("playMusicBtn").addEventListener("click", playMusic);
+  document.getElementById("stopMusicBtn").addEventListener("click", stopMusic);
+});
+</script>
+
+
+</body>
+</html>

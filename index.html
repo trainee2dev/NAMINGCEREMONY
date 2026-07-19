@@ -2,487 +2,752 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Chinnodu Name Reveal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:"Georgia",serif;
+}
+
+:root{
+    --maroon:#5c0a0a;
+    --deep:#3d0606;
+    --saffron:#e07a1f;
+    --marigold:#f0a020;
+    --gold:#e8c547;
+    --ivory:#fff4e0;
+    --cream:#ffe8c2;
 }
 
 body{
-
     height:100vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     overflow:hidden;
-
+    color:var(--ivory);
+    font-family:"Cormorant Garamond",serif;
     background:
-    linear-gradient(135deg,#8B0000,#FF8C00,#FFD700);
-
-    color:white;
-
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(224,122,31,.35) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(92,10,10,.5) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 85% 15%, rgba(240,160,32,.25) 0%, transparent 45%),
+        linear-gradient(160deg, #2a0505 0%, #6b1010 35%, #a84810 70%, #c47820 100%);
 }
 
-/* Start Screen */
+/* Subtle rangoli dots */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        radial-gradient(circle, rgba(232,197,71,.18) 1.5px, transparent 1.5px);
+    background-size:28px 28px;
+    pointer-events:none;
+    animation:dotDrift 40s linear infinite;
+    z-index:0;
+}
 
+@keyframes dotDrift{
+    from{ background-position:0 0; }
+    to{ background-position:28px 56px; }
+}
+
+/* —— Toran (mango leaf garland) —— */
+.toran{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:2px;
+    z-index:5;
+    pointer-events:none;
+    padding-top:4px;
+}
+
+.toran-rope{
+    position:absolute;
+    top:10px;
+    left:5%;
+    right:5%;
+    height:4px;
+    background:linear-gradient(90deg, transparent, var(--gold), var(--marigold), var(--gold), transparent);
+    border-radius:2px;
+    box-shadow:0 1px 6px rgba(232,197,71,.5);
+}
+
+.leaf{
+    width:22px;
+    height:36px;
+    background:linear-gradient(180deg, #2d6a2d 0%, #1a4a1a 100%);
+    border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    transform-origin:top center;
+    position:relative;
+    margin-top:8px;
+    animation:leafSway 3s ease-in-out infinite;
+}
+
+.leaf::after{
+    content:"";
+    position:absolute;
+    top:4px;
+    left:50%;
+    width:1.5px;
+    height:70%;
+    background:rgba(255,255,200,.25);
+    transform:translateX(-50%);
+}
+
+.leaf:nth-child(odd){ animation-delay:-.4s; }
+.leaf:nth-child(3n){ animation-delay:-1.2s; animation-duration:3.6s; }
+.leaf:nth-child(even){
+    background:linear-gradient(180deg, #3a8a3a 0%, #226022 100%);
+}
+
+@keyframes leafSway{
+    0%,100%{ transform:rotate(-8deg); }
+    50%{ transform:rotate(8deg); }
+}
+
+.marigold-bead{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #ffd060, #e07a1f 55%, #b85010);
+    margin-top:6px;
+    box-shadow:0 0 8px rgba(240,160,32,.6);
+    animation:beadPulse 2.5s ease-in-out infinite;
+}
+
+.marigold-bead:nth-child(4n){ animation-delay:-.8s; }
+
+@keyframes beadPulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.15); }
+}
+
+/* —— Floating diyas —— */
+.diya-field{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    overflow:hidden;
+}
+
+.diya{
+    position:absolute;
+    bottom:-20px;
+    width:28px;
+    height:18px;
+    opacity:0;
+    animation:diyaRise 12s ease-in infinite;
+}
+
+.diya-bowl{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:10px;
+    background:linear-gradient(180deg, #c47820, #8b4510);
+    border-radius:0 0 50% 50% / 0 0 100% 100%;
+    box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+
+.diya-flame{
+    position:absolute;
+    bottom:8px;
+    left:50%;
+    width:8px;
+    height:16px;
+    margin-left:-4px;
+    background:radial-gradient(ellipse at 50% 80%, #fff8e0 0%, #ffd060 30%, #ff6b00 70%, transparent 100%);
+    border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation:flameFlicker .4s ease-in-out infinite alternate;
+    filter:blur(.3px);
+}
+
+@keyframes flameFlicker{
+    from{ transform:scaleY(1) scaleX(1); opacity:.9; }
+    to{ transform:scaleY(1.15) scaleX(.85); opacity:1; }
+}
+
+@keyframes diyaRise{
+    0%{
+        opacity:0;
+        transform:translateY(0) scale(.6);
+    }
+    10%{ opacity:.85; }
+    80%{ opacity:.7; }
+    100%{
+        opacity:0;
+        transform:translateY(-110vh) scale(1);
+    }
+}
+
+/* —— Marigold petals —— */
+.petal{
+    position:absolute;
+    top:-40px;
+    width:16px;
+    height:20px;
+    background:radial-gradient(ellipse at 40% 40%, #ffd060, #e07a1f 60%, #c45010);
+    border-radius:50% 50% 50% 0;
+    opacity:.9;
+    z-index:2;
+    pointer-events:none;
+    animation:petalFall linear infinite;
+    box-shadow:0 0 4px rgba(224,122,31,.4);
+}
+
+@keyframes petalFall{
+    0%{
+        transform:translateY(0) translateX(0) rotate(0deg);
+        opacity:0;
+    }
+    8%{ opacity:.95; }
+    100%{
+        transform:translateY(110vh) translateX(40px) rotate(720deg);
+        opacity:.3;
+    }
+}
+
+/* —— Start screen —— */
 .start{
-
     text-align:center;
-
+    position:relative;
+    z-index:10;
+    animation:fadeIn .8s ease;
 }
 
 .start h1{
-
-    font-size:35px;
-
-    color:#fff8dc;
-
-    margin-bottom:30px;
-
+    font-family:"Cinzel",serif;
+    font-size:clamp(22px, 4vw, 34px);
+    font-weight:500;
+    color:var(--cream);
+    margin-bottom:36px;
+    letter-spacing:.04em;
+    text-shadow:0 2px 20px rgba(0,0,0,.4);
+    line-height:1.4;
 }
 
-button{
+.start .hearts{
+    display:block;
+    font-size:18px;
+    color:var(--marigold);
+    margin-bottom:12px;
+    letter-spacing:8px;
+    animation:heartBeat 1.6s ease-in-out infinite;
+}
 
-    padding:18px 35px;
+@keyframes heartBeat{
+    0%,100%{ transform:scale(1); opacity:.7; }
+    50%{ transform:scale(1.1); opacity:1; }
+}
 
-    border:none;
-
-    border-radius:40px;
-
-    font-size:20px;
-
-    background:#ffd700;
-
-    color:#8B0000;
-
-    font-weight:bold;
-
+button.reveal-btn{
+    padding:16px 40px;
+    border:1.5px solid var(--gold);
+    border-radius:4px;
+    font-family:"Cinzel",serif;
+    font-size:16px;
+    letter-spacing:.12em;
+    background:linear-gradient(180deg, var(--gold) 0%, var(--saffron) 100%);
+    color:var(--deep);
+    font-weight:700;
     cursor:pointer;
-
-    box-shadow:0 0 25px gold;
-
+    box-shadow:
+        0 4px 0 #8b4510,
+        0 8px 24px rgba(0,0,0,.35);
+    transition:transform .2s, box-shadow .2s;
+    position:relative;
+    overflow:hidden;
 }
 
-/* Reveal Box */
+button.reveal-btn::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(105deg, transparent 40%, rgba(255,255,255,.35) 50%, transparent 60%);
+    transform:translateX(-100%);
+    animation:shimmer 3s ease-in-out infinite;
+}
 
+@keyframes shimmer{
+    0%,60%{ transform:translateX(-100%); }
+    100%{ transform:translateX(100%); }
+}
+
+button.reveal-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 6px 0 #8b4510,
+        0 12px 28px rgba(0,0,0,.4);
+}
+
+button.reveal-btn:active{
+    transform:translateY(2px);
+    box-shadow:0 2px 0 #8b4510, 0 4px 12px rgba(0,0,0,.3);
+}
+
+@keyframes fadeIn{
+    from{ opacity:0; transform:translateY(12px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+/* —— Reveal —— */
 .reveal{
-
     display:none;
-
     text-align:center;
+    position:relative;
+    z-index:10;
+    padding:clamp(28px, 5vw, 48px) clamp(24px, 6vw, 56px);
+    max-width:640px;
+    width:90%;
+}
 
-    background:rgba(255,255,255,.15);
+.reveal.show{
+    display:block;
+    animation:cardReveal 1s cubic-bezier(.22,1,.36,1) forwards;
+}
 
-    padding:40px;
+@keyframes cardReveal{
+    from{
+        opacity:0;
+        transform:scale(.88) translateY(24px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+}
 
-    border:3px solid gold;
+/* Mandala behind content */
+.mandala{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:min(520px, 90vw);
+    height:min(520px, 90vw);
+    transform:translate(-50%, -50%);
+    pointer-events:none;
+    z-index:-1;
+    opacity:.22;
+    animation:mandalaSpin 60s linear infinite;
+}
 
-    border-radius:25px;
+.mandala svg{
+    width:100%;
+    height:100%;
+}
 
-    box-shadow:0 0 40px gold;
+@keyframes mandalaSpin{
+    from{ transform:translate(-50%, -50%) rotate(0deg); }
+    to{ transform:translate(-50%, -50%) rotate(360deg); }
+}
 
+.om-wrap{
+    position:relative;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    width:100px;
+    height:100px;
+    margin:0 auto 8px;
+    opacity:0;
+    animation:riseIn .8s .2s ease forwards;
 }
 
 .om{
-
+    font-size:52px;
+    line-height:1;
     position:relative;
-
-    display:inline-flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    width:110px;
-
-    height:110px;
-
-    margin:0 auto;
-
-    font-size:60px;
-
     z-index:2;
-
+    filter:drop-shadow(0 0 12px rgba(232,197,71,.7));
 }
 
-.om::before{
-
-    content:"";
-
+.om-glow{
     position:absolute;
-
-    width:90px;
-
-    height:90px;
-
+    inset:0;
     border-radius:50%;
-
     background:radial-gradient(circle,
-        rgba(255,200,80,.95) 0%,
-        rgba(255,170,0,.65) 40%,
-        rgba(255,140,0,.35) 65%,
-        rgba(255,140,0,0) 100%);
-
-    filter:blur(6px);
-
-    animation:omGlow 2.8s ease-in-out infinite;
-
-    z-index:-1;
-
+        rgba(255,200,80,.7) 0%,
+        rgba(224,122,31,.35) 45%,
+        transparent 70%);
+    animation:omPulse 2.8s ease-in-out infinite;
+    z-index:0;
 }
 
-.om::after{
-
-    content:"";
-
+.om-ring{
     position:absolute;
-
-    width:105px;
-
-    height:105px;
-
+    inset:-4px;
     border-radius:50%;
-
-    border:2px solid rgba(255,215,0,.35);
-
-    animation:omRing 3s linear infinite;
-
-    z-index:-2;
-
+    border:1.5px solid rgba(232,197,71,.4);
+    animation:omExpand 3s ease-out infinite;
 }
 
-@keyframes omGlow{
-
-    0%{
-
-        transform:scale(.95);
-
-        opacity:.75;
-
-    }
-
-    50%{
-
-        transform:scale(1.12);
-
-        opacity:1;
-
-    }
-
-    100%{
-
-        transform:scale(.95);
-
-        opacity:.75;
-
-    }
-
+@keyframes omPulse{
+    0%,100%{ transform:scale(.92); opacity:.7; }
+    50%{ transform:scale(1.1); opacity:1; }
 }
 
-@keyframes omRing{
-
-    0%{
-
-        transform:scale(.9);
-
-        opacity:.8;
-
-    }
-
-    100%{
-
-        transform:scale(1.25);
-
-        opacity:0;
-
-    }
-
+@keyframes omExpand{
+    0%{ transform:scale(.85); opacity:.7; }
+    100%{ transform:scale(1.35); opacity:0; }
 }
 
 .title{
-
-    font-size:25px;
-
-    color:#ffe082;
-
-    margin-top:15px;
-
+    font-family:"Cormorant Garamond",serif;
+    font-size:clamp(16px, 2.5vw, 20px);
+    font-style:italic;
+    color:var(--gold);
+    letter-spacing:.06em;
+    margin-top:6px;
+    opacity:0;
+    animation:riseIn .8s .4s ease forwards;
 }
 
 .name{
-
-    font-size:65px;
-
-    font-weight:bold;
-
-    margin-top:30px;
-
-    color:white;
-
+    font-family:"Cinzel",serif;
+    font-size:clamp(36px, 8vw, 58px);
+    font-weight:700;
+    margin-top:22px;
+    color:var(--ivory);
+    letter-spacing:.03em;
+    line-height:1.15;
     text-shadow:
-    0 0 10px gold,
-    0 0 30px orange,
-    0 0 60px gold;
+        0 2px 4px rgba(0,0,0,.35),
+        0 0 40px rgba(224,122,31,.45);
+    opacity:0;
+    animation:nameReveal 1.2s .6s cubic-bezier(.22,1,.36,1) forwards;
+}
 
-    animation:zoom 2s;
-
+@keyframes nameReveal{
+    from{
+        opacity:0;
+        transform:scale(.6);
+        letter-spacing:.2em;
+        filter:blur(6px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+        letter-spacing:.03em;
+        filter:blur(0);
+    }
 }
 
 .message{
+    font-size:clamp(18px, 3vw, 24px);
+    margin-top:22px;
+    color:var(--cream);
+    opacity:0;
+    animation:riseIn .8s .9s ease forwards;
+}
 
-    font-size:25px;
+.sparkles{
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    color:var(--gold);
+    font-size:.85em;
+}
 
-    margin-top:25px;
+.sparkle{
+    display:inline-block;
+    animation:twinkle 1.8s ease-in-out infinite;
+}
 
-    color:#fff3cd;
+.sparkle:nth-child(3){ animation-delay:.6s; }
 
+@keyframes twinkle{
+    0%,100%{ opacity:.4; transform:scale(.8) rotate(0deg); }
+    50%{ opacity:1; transform:scale(1.15) rotate(15deg); }
+}
+
+.meaning{
+    font-size:clamp(14px, 2.2vw, 17px);
+    margin-top:14px;
+    color:rgba(255,244,224,.8);
+    font-style:italic;
+    line-height:1.5;
+    max-width:420px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.divider{
+    width:120px;
+    height:1px;
+    margin:22px auto 0;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity:0;
+    animation:riseIn .8s 1.1s ease forwards;
 }
 
 .mother{
-
-    font-size:30px;
-
-    margin-top:20px;
-
-    color:#FFD700;
-
+    font-family:"Cinzel",serif;
+    font-size:clamp(16px, 2.8vw, 22px);
+    margin-top:16px;
+    color:var(--gold);
+    letter-spacing:.08em;
+    opacity:0;
+    animation:riseIn .8s 1.2s ease forwards;
 }
 
-.flower{
+.mother .heart{
+    display:inline-block;
+    color:#e05050;
+    margin:0 8px;
+    animation:heartBeat 1.6s ease-in-out infinite;
+}
 
-    position:absolute;
-
-    top:-40px;
-
-    font-size:30px;
-
-    animation:fall linear infinite;
-
+@keyframes riseIn{
+    from{
+        opacity:0;
+        transform:translateY(16px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .music-toggle{
-
     display:none;
-
     position:fixed;
-
-    top:20px;
-
-    right:20px;
-
-    padding:12px 20px;
-
-    border:none;
-
-    border-radius:30px;
-
-    background:#FFD700;
-
-    color:#8B0000;
-
-    font-size:16px;
-
-    font-weight:bold;
-
+    top:78px;
+    right:18px;
+    padding:10px 18px;
+    border:1px solid rgba(232,197,71,.5);
+    border-radius:4px;
+    background:rgba(61,6,6,.75);
+    backdrop-filter:blur(8px);
+    color:var(--gold);
+    font-family:"Cinzel",serif;
+    font-size:12px;
+    letter-spacing:.1em;
+    font-weight:500;
     cursor:pointer;
-
-    box-shadow:0 0 15px gold;
-
     z-index:9999;
-
-    transition:.3s;
-
+    transition:background .25s, transform .2s;
 }
 
 .music-toggle:hover{
-
-    transform:scale(1.05);
-
+    background:rgba(92,10,10,.9);
+    transform:translateY(-1px);
 }
 
-@keyframes zoom{
-
-from{
-
-opacity:0;
-
-transform:scale(.2);
-
+.music-toggle.visible{
+    display:block;
+    animation:fadeIn .5s ease;
 }
 
-to{
-
-opacity:1;
-
-transform:scale(1);
-
+/* Corner paisleys */
+.corner{
+    position:fixed;
+    width:80px;
+    height:80px;
+    opacity:.35;
+    z-index:3;
+    pointer-events:none;
 }
 
+.corner svg{ width:100%; height:100%; fill:var(--gold); }
+
+.corner.tl{ top:60px; left:12px; }
+.corner.tr{ top:60px; right:12px; transform:scaleX(-1); }
+.corner.bl{ bottom:12px; left:12px; transform:scaleY(-1); }
+.corner.br{ bottom:12px; right:12px; transform:scale(-1); }
+
+@media (max-width:500px){
+    .toran{ height:50px; }
+    .leaf{ width:14px; height:24px; }
+    .marigold-bead{ width:10px; height:10px; }
+    .corner{ width:48px; height:48px; }
+    .music-toggle{ top:58px; right:10px; padding:8px 12px; font-size:11px; }
 }
-
-@keyframes fall{
-
-to{
-
-transform:translateY(110vh) rotate(360deg);
-
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
+<!-- Toran garland -->
+<div class="toran" id="toran" aria-hidden="true">
+    <div class="toran-rope"></div>
+</div>
+
+<!-- Corner paisleys -->
+<div class="corner tl" aria-hidden="true">
+<svg viewBox="0 0 80 80"><path d="M10 70 C10 30 40 10 55 25 C70 40 50 55 35 50 C50 60 65 45 58 30 C75 45 70 70 40 70 C25 70 10 70 10 70Z"/></svg>
+</div>
+<div class="corner tr" aria-hidden="true">
+<svg viewBox="0 0 80 80"><path d="M10 70 C10 30 40 10 55 25 C70 40 50 55 35 50 C50 60 65 45 58 30 C75 45 70 70 40 70 C25 70 10 70 10 70Z"/></svg>
+</div>
+<div class="corner bl" aria-hidden="true">
+<svg viewBox="0 0 80 80"><path d="M10 70 C10 30 40 10 55 25 C70 40 50 55 35 50 C50 60 65 45 58 30 C75 45 70 70 40 70 C25 70 10 70 10 70Z"/></svg>
+</div>
+<div class="corner br" aria-hidden="true">
+<svg viewBox="0 0 80 80"><path d="M10 70 C10 30 40 10 55 25 C70 40 50 55 35 50 C50 60 65 45 58 30 C75 45 70 70 40 70 C25 70 10 70 10 70Z"/></svg>
+</div>
+
+<div class="diya-field" id="diyaField" aria-hidden="true"></div>
+
 <div class="start" id="start">
-
-<h1>
-❤️ Do you want to know my Chinnodu name? ❤️
-</h1>
-
-<button onclick="revealName()">
-Click Here ✨
-</button>
-
+    <span class="hearts">✦ ✦ ✦</span>
+    <h1>Do you want to know<br>my Chinnodu name?</h1>
+    <button class="reveal-btn" onclick="revealName()">Reveal the Name</button>
 </div>
 
 <div class="reveal" id="reveal">
+    <div class="mandala" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="95" fill="none" stroke="#e8c547" stroke-width=".6"/>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#e8c547" stroke-width=".4"/>
+            <circle cx="100" cy="100" r="55" fill="none" stroke="#e8c547" stroke-width=".5"/>
+            <circle cx="100" cy="100" r="30" fill="none" stroke="#e8c547" stroke-width=".6"/>
+            <g stroke="#e8c547" stroke-width=".5" fill="none">
+                <ellipse cx="100" cy="100" rx="90" ry="35"/>
+                <ellipse cx="100" cy="100" rx="90" ry="35" transform="rotate(45 100 100)"/>
+                <ellipse cx="100" cy="100" rx="90" ry="35" transform="rotate(90 100 100)"/>
+                <ellipse cx="100" cy="100" rx="90" ry="35" transform="rotate(135 100 100)"/>
+            </g>
+            <g fill="#e8c547">
+                <circle cx="100" cy="10" r="3"/>
+                <circle cx="100" cy="190" r="3"/>
+                <circle cx="10" cy="100" r="3"/>
+                <circle cx="190" cy="100" r="3"/>
+                <circle cx="163" cy="37" r="2.5"/>
+                <circle cx="37" cy="37" r="2.5"/>
+                <circle cx="163" cy="163" r="2.5"/>
+                <circle cx="37" cy="163" r="2.5"/>
+            </g>
+        </svg>
+    </div>
 
-<div class="om">
-🕉️
+    <div class="om-wrap">
+        <div class="om-glow"></div>
+        <div class="om-ring"></div>
+        <div class="om">🕉️</div>
+    </div>
+
+    <div class="title">With the Blessings of Lord Ganesha</div>
+
+    <div class="name">Hetvik Sree Teja</div>
+
+    <div class="message">
+        <span class="sparkles">
+            <span class="sparkle">✦</span>
+            Welcome Little Prince
+            <span class="sparkle">✦</span>
+        </span>
+        <p class="meaning">Hetvik means a loving heart with wisdom and divine blessings</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="mother">
+        <span class="heart">♥</span>
+        Son of Teja
+        <span class="heart">♥</span>
+    </div>
 </div>
-
-<div class="title">
-With the Blessings of Lord Ganesha
-</div>
-
-<div class="name">
-Hetvik Sree Teja
-</div>
-
-<div class="message">
-
-✨ Welcome Little Prince ✨
-
-<br><br>
-
-Hetvik means a loving heart with wisdom and divine blessings
-
-</div>
-
-<div class="mother">
-❤️ Son of Teja ❤️
-</div>
-
-</div>
-
-<!-- Background Music -->
 
 <audio id="bgMusic" preload="auto" loop>
-
     <source src="krishna.mp3" type="audio/mpeg">
-
 </audio>
 
-<button id="musicToggle" class="music-toggle">
-
-🔊 Music On
-
-</button>
+<button id="musicToggle" class="music-toggle" type="button">Music On</button>
 
 <script>
-
 const bgMusic = document.getElementById("bgMusic");
-
 const musicBtn = document.getElementById("musicToggle");
-
 let musicPlaying = false;
 
+/* Build toran */
+(function buildToran(){
+    const toran = document.getElementById("toran");
+    const count = Math.min(36, Math.floor(window.innerWidth / 22));
+    for(let i = 0; i < count; i++){
+        if(i % 3 === 2){
+            const bead = document.createElement("div");
+            bead.className = "marigold-bead";
+            toran.appendChild(bead);
+        } else {
+            const leaf = document.createElement("div");
+            leaf.className = "leaf";
+            toran.appendChild(leaf);
+        }
+    }
+})();
+
 function startMusic(){
-
     bgMusic.play().then(()=>{
-
-        musicPlaying=true;
-
-        musicBtn.innerHTML="🔊 Music On";
-
-    }).catch(err=>{
-
-        console.log(err);
-
-    });
-
+        musicPlaying = true;
+        musicBtn.textContent = "Music On";
+    }).catch(err => console.log(err));
 }
 
 function stopMusic(){
-
     bgMusic.pause();
+    musicPlaying = false;
+    musicBtn.textContent = "Music Off";
+}
 
-    musicPlaying=false;
+function spawnDiyas(){
+    const field = document.getElementById("diyaField");
+    for(let i = 0; i < 8; i++){
+        const d = document.createElement("div");
+        d.className = "diya";
+        d.innerHTML = '<div class="diya-flame"></div><div class="diya-bowl"></div>';
+        d.style.left = (8 + Math.random() * 84) + "%";
+        d.style.animationDuration = (10 + Math.random() * 8) + "s";
+        d.style.animationDelay = (Math.random() * 8) + "s";
+        field.appendChild(d);
+    }
+}
 
-    musicBtn.innerHTML="🔇 Music Off";
-
+function spawnPetals(){
+    for(let i = 0; i < 35; i++){
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (6 + Math.random() * 9) + "s";
+        p.style.animationDelay = (Math.random() * 6) + "s";
+        p.style.width = (12 + Math.random() * 10) + "px";
+        p.style.height = (14 + Math.random() * 12) + "px";
+        const hue = 25 + Math.random() * 20;
+        p.style.background = `radial-gradient(ellipse at 40% 40%, hsl(${hue},95%,70%), hsl(${hue},85%,45%) 60%, hsl(${hue - 10},80%,30%))`;
+        document.body.appendChild(p);
+    }
 }
 
 function revealName(){
-
-    document.getElementById("start").style.display="none";
-
-    document.getElementById("reveal").style.display="block";
-
-    musicBtn.style.display="block";
-
+    document.getElementById("start").style.display = "none";
+    const reveal = document.getElementById("reveal");
+    reveal.classList.add("show");
+    musicBtn.classList.add("visible");
     startMusic();
-
-    let flowers=["🌸","🌺","🌼","🌷"];
-
-    for(let i=0;i<50;i++){
-
-        let f=document.createElement("div");
-
-        f.className="flower";
-
-        f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
-
-        f.style.left=Math.random()*100+"vw";
-
-        f.style.animationDuration=(5+Math.random()*8)+"s";
-
-        document.body.appendChild(f);
-
-    }
-
+    spawnPetals();
+    spawnDiyas();
 }
 
-musicBtn.addEventListener("click",()=>{
-
-    if(musicPlaying){
-
-        stopMusic();
-
-    }else{
-
-        startMusic();
-
-    }
-
+musicBtn.addEventListener("click", ()=>{
+    if(musicPlaying) stopMusic();
+    else startMusic();
 });
-
 </script>
 
 </body>
-
 </html>

@@ -367,9 +367,9 @@ button.reveal-btn:active{
     text-align:center;
     position:relative;
     z-index:20;
-    padding:72px 12px 20px;
-    max-width:560px;
-    width:94%;
+    padding:72px 16px 24px;
+    max-width:680px;
+    width:96%;
     max-height:100dvh;
     overflow:hidden;
     box-sizing:border-box;
@@ -389,7 +389,7 @@ button.reveal-btn:active{
 .reveal-hero{
     position:relative;
     width:100%;
-    min-height:min(480px, 68vh);
+    min-height:min(560px, 78vh);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -411,17 +411,21 @@ button.reveal-btn:active{
     transform:none !important;
 }
 
-/* Text block — lower on the image */
+/* Text block — larger area for visibility */
 .reveal-copy{
     position:relative;
     z-index:2;
     display:flex;
     flex-direction:column;
     align-items:center;
-    width:100%;
-    margin-top:0;
-    padding:24px 8px 16px;
     justify-content:center;
+    width:100%;
+    max-width:620px;
+    min-height:min(420px, 58vh);
+    margin-top:0;
+    padding:36px 28px 32px;
+    gap:4px;
+    box-sizing:border-box;
 }
 
 .om-wrap{
@@ -562,7 +566,8 @@ button.reveal-btn:active{
     color:rgba(255,244,224,.9);
     font-style:italic;
     line-height:1.55;
-    max-width:420px;
+    max-width:520px;
+    width:100%;
     margin-left:auto;
     margin-right:auto;
     text-shadow:0 1px 8px rgba(0,0,0,.5);
@@ -754,19 +759,25 @@ button.reveal-btn:active{
     }
 
     .reveal{
-        padding:52px 8px 12px;
+        /*padding:52px 10px 14px;*/
+        max-width:100%;
+        width:100%;
         overflow:hidden;
     }
 
     .reveal-hero{
-        min-height:min(550px, 78vh);
+        min-height:min(560px, 82vh);
         padding-top:0;
         justify-content:center;
     }
 
     .reveal-copy{
         margin-top:0;
-        padding:12px 8px 10px;
+        width:100%;
+        max-width:100%;
+        min-height:min(380px, 55vh);
+        padding:28px 18px 24px;
+        gap:6px;
     }
 
     .reveal > .om-wrap{

@@ -7,7 +7,7 @@
 <title>Chinnodu Name Reveal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+Devanagari:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -41,7 +41,7 @@ body{
         linear-gradient(160deg, #2a0505 0%, #6b1010 35%, #a84810 70%, #c47820 100%);
 }
 
-/* Subtle rangoli dots */
+/* Subtle rangoli dots (static — animating background-position causes jank) */
 body::before{
     content:"";
     position:fixed;
@@ -50,13 +50,7 @@ body::before{
         radial-gradient(circle, rgba(232,197,71,.18) 1.5px, transparent 1.5px);
     background-size:28px 28px;
     pointer-events:none;
-    animation:dotDrift 40s linear infinite;
     z-index:0;
-}
-
-@keyframes dotDrift{
-    from{ background-position:0 0; }
-    to{ background-position:28px 56px; }
 }
 
 /* —— Toran (mango leaf garland) —— */
@@ -94,7 +88,6 @@ body::before{
     transform-origin:top center;
     position:relative;
     margin-top:8px;
-    animation:leafSway 3s ease-in-out infinite;
 }
 
 .leaf::after{
@@ -108,15 +101,18 @@ body::before{
     transform:translateX(-50%);
 }
 
-.leaf:nth-child(odd){ animation-delay:-.4s; }
-.leaf:nth-child(3n){ animation-delay:-1.2s; animation-duration:3.6s; }
+/* Only a few leaves sway — keeps motion light */
+.leaf:nth-child(6n){
+    animation:leafSway 4s ease-in-out infinite;
+}
+
 .leaf:nth-child(even){
     background:linear-gradient(180deg, #3a8a3a 0%, #226022 100%);
 }
 
 @keyframes leafSway{
-    0%,100%{ transform:rotate(-8deg); }
-    50%{ transform:rotate(8deg); }
+    0%,100%{ transform:rotate(-6deg); }
+    50%{ transform:rotate(6deg); }
 }
 
 .marigold-bead{
@@ -125,15 +121,6 @@ body::before{
     border-radius:50%;
     background:radial-gradient(circle at 35% 35%, #ffd060, #e07a1f 55%, #b85010);
     margin-top:6px;
-    box-shadow:0 0 8px rgba(240,160,32,.6);
-    animation:beadPulse 2.5s ease-in-out infinite;
-}
-
-.marigold-bead:nth-child(4n){ animation-delay:-.8s; }
-
-@keyframes beadPulse{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.15); }
 }
 
 /* —— Floating diyas —— */
@@ -174,25 +161,24 @@ body::before{
     margin-left:-4px;
     background:radial-gradient(ellipse at 50% 80%, #fff8e0 0%, #ffd060 30%, #ff6b00 70%, transparent 100%);
     border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
-    animation:flameFlicker .4s ease-in-out infinite alternate;
-    filter:blur(.3px);
+    animation:flameFlicker 1.2s ease-in-out infinite alternate;
 }
 
 @keyframes flameFlicker{
-    from{ transform:scaleY(1) scaleX(1); opacity:.9; }
-    to{ transform:scaleY(1.15) scaleX(.85); opacity:1; }
+    from{ transform:scale3d(1,1,1); opacity:.85; }
+    to{ transform:scale3d(.9,1.12,1); opacity:1; }
 }
 
 @keyframes diyaRise{
     0%{
         opacity:0;
-        transform:translateY(0) scale(.6);
+        transform:translate3d(0,0,0) scale(.6);
     }
-    10%{ opacity:.85; }
-    80%{ opacity:.7; }
+    10%{ opacity:.8; }
+    85%{ opacity:.65; }
     100%{
         opacity:0;
-        transform:translateY(-110vh) scale(1);
+        transform:translate3d(0,-110vh,0) scale(1);
     }
 }
 
@@ -204,22 +190,23 @@ body::before{
     height:20px;
     background:radial-gradient(ellipse at 40% 40%, #ffd060, #e07a1f 60%, #c45010);
     border-radius:50% 50% 50% 0;
-    opacity:.9;
+    opacity:.85;
     z-index:2;
     pointer-events:none;
     animation:petalFall linear infinite;
-    box-shadow:0 0 4px rgba(224,122,31,.4);
+    will-change:transform, opacity;
+    backface-visibility:hidden;
 }
 
 @keyframes petalFall{
     0%{
-        transform:translateY(0) translateX(0) rotate(0deg);
+        transform:translate3d(0,0,0) rotate(0deg);
         opacity:0;
     }
-    8%{ opacity:.95; }
+    10%{ opacity:.9; }
     100%{
-        transform:translateY(110vh) translateX(40px) rotate(720deg);
-        opacity:.3;
+        transform:translate3d(30px,110vh,0) rotate(360deg);
+        opacity:.25;
     }
 }
 
@@ -333,7 +320,7 @@ button.reveal-btn:active{
     }
 }
 
-/* Mandala behind content */
+/* Mandala behind content — slow spin via inner SVG (GPU-friendly) */
 .mandala{
     position:absolute;
     top:50%;
@@ -343,18 +330,19 @@ button.reveal-btn:active{
     transform:translate(-50%, -50%);
     pointer-events:none;
     z-index:-1;
-    opacity:.22;
-    animation:mandalaSpin 60s linear infinite;
+    opacity:.18;
 }
 
 .mandala svg{
     width:100%;
     height:100%;
+    animation:mandalaSpin 90s linear infinite;
+    will-change:transform;
 }
 
 @keyframes mandalaSpin{
-    from{ transform:translate(-50%, -50%) rotate(0deg); }
-    to{ transform:translate(-50%, -50%) rotate(360deg); }
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
 }
 
 .om-wrap{
@@ -362,48 +350,56 @@ button.reveal-btn:active{
     display:inline-flex;
     justify-content:center;
     align-items:center;
-    width:100px;
-    height:100px;
-    margin:0 auto 8px;
+    width:120px;
+    height:120px;
+    margin:12px auto 4px;
     opacity:0;
     animation:riseIn .8s .2s ease forwards;
 }
 
-.om{
-    font-size:52px;
-    line-height:1;
-    position:relative;
-    z-index:2;
-    filter:drop-shadow(0 0 12px rgba(232,197,71,.7));
-}
-
 .om-glow{
     position:absolute;
-    inset:0;
+    inset:8px;
     border-radius:50%;
     background:radial-gradient(circle,
-        rgba(255,200,80,.7) 0%,
-        rgba(224,122,31,.35) 45%,
+        rgba(255,220,120,.65) 0%,
+        rgba(224,122,31,.25) 45%,
         transparent 70%);
-    animation:omPulse 2.8s ease-in-out infinite;
+    animation:omPulse 3.5s ease-in-out infinite;
     z-index:0;
+    will-change:transform, opacity;
 }
 
 .om-ring{
     position:absolute;
-    inset:-4px;
+    inset:0;
     border-radius:50%;
-    border:1.5px solid rgba(232,197,71,.4);
-    animation:omExpand 3s ease-out infinite;
+    border:1.5px solid rgba(232,197,71,.35);
+    animation:omExpand 4s ease-out infinite;
+}
+
+.om-svg{
+    position:relative;
+    z-index:2;
+    width:100px;
+    height:100px;
+    /* soft gold glow without animated filter */
+    filter:drop-shadow(0 2px 8px rgba(200,140,20,.45));
+}
+
+.om-svg .lotus-petal{
+    fill:rgba(232,197,71,.22);
+    stroke:rgba(232,197,71,.5);
+    stroke-width:1;
 }
 
 @keyframes omPulse{
-    0%,100%{ transform:scale(.92); opacity:.7; }
-    50%{ transform:scale(1.1); opacity:1; }
+    0%,100%{ transform:scale(.94); opacity:.65; }
+    50%{ transform:scale(1.06); opacity:1; }
 }
 
 @keyframes omExpand{
-    0%{ transform:scale(.85); opacity:.7; }
+    0%{ transform:scale(.9); opacity:.6; }
     100%{ transform:scale(1.35); opacity:0; }
 }
 
@@ -436,15 +432,11 @@ button.reveal-btn:active{
 @keyframes nameReveal{
     from{
         opacity:0;
-        transform:scale(.6);
-        letter-spacing:.2em;
-        filter:blur(6px);
+        transform:scale(.7);
     }
     to{
         opacity:1;
         transform:scale(1);
-        letter-spacing:.03em;
-        filter:blur(0);
     }
 }
 
@@ -554,6 +546,48 @@ button.reveal-btn:active{
     animation:fadeIn .5s ease;
 }
 
+/* —— Center Bala Ganesh (soft background shade) —— */
+.ganesh-center{
+    position:fixed;
+    top:52%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:min(480px, 82vw);
+    z-index:1;
+    pointer-events:none;
+    opacity:.22;
+}
+
+.ganesh-center img{
+    width:100%;
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 0 28px rgba(232,197,71,.3));
+}
+
+/* —— Side Bala Ganesh idols —— */
+.side-ganesh{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:3;
+    pointer-events:none;
+    width:clamp(90px, 16vw, 150px);
+}
+
+.side-ganesh.left{ left:clamp(6px, 2.5vw, 24px); }
+.side-ganesh.right{
+    right:clamp(6px, 2.5vw, 24px);
+    transform:translateY(-50%) scaleX(-1);
+}
+
+.side-ganesh img{
+    width:100%;
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 4px 16px rgba(0,0,0,.4));
+}
+
 /* Corner paisleys */
 .corner{
     position:fixed;
@@ -577,6 +611,8 @@ button.reveal-btn:active{
     .marigold-bead{ width:10px; height:10px; }
     .corner{ width:48px; height:48px; }
     .music-toggle{ top:58px; right:10px; padding:8px 12px; font-size:11px; }
+    .side-ganesh{ width:70px; }
+    .ganesh-center{ width:min(320px, 85vw); opacity:.18; }
 }
 </style>
 </head>
@@ -601,6 +637,19 @@ button.reveal-btn:active{
 <div class="corner br" aria-hidden="true">
 <svg viewBox="0 0 80 80"><path d="M10 70 C10 30 40 10 55 25 C70 40 50 55 35 50 C50 60 65 45 58 30 C75 45 70 70 40 70 C25 70 10 70 10 70Z"/></svg>
 </div>
+
+<!-- Center Bala Ganesh shade -->
+<div class="ganesh-center" aria-hidden="true">
+    <img src="bala-ganesh.png" alt="">
+</div>
+
+<!-- Side Bala Ganesh idols -->
+<!-- <div class="side-ganesh left" aria-hidden="true">
+    <img src="bala-ganesh.png" alt="">
+</div>
+<div class="side-ganesh right" aria-hidden="true">
+    <img src="bala-ganesh.png" alt="">
+</div> -->
 
 <div class="diya-field" id="diyaField" aria-hidden="true"></div>
 
@@ -639,12 +688,50 @@ button.reveal-btn:active{
     <div class="om-wrap">
         <div class="om-glow"></div>
         <div class="om-ring"></div>
-        <div class="om">🕉️</div>
+        <svg class="om-svg" viewBox="0 0 120 120" aria-label="Om" role="img">
+            <defs>
+                <linearGradient id="omGold" x1="20%" y1="10%" x2="80%" y2="90%">
+                    <stop offset="0%" stop-color="#fff8e0"/>
+                    <stop offset="35%" stop-color="#f0d060"/>
+                    <stop offset="70%" stop-color="#e8c547"/>
+                    <stop offset="100%" stop-color="#b8860b"/>
+                </linearGradient>
+                <radialGradient id="omCore" cx="50%" cy="45%" r="50%">
+                    <stop offset="0%" stop-color="#fff4e0"/>
+                    <stop offset="100%" stop-color="#d4a017"/>
+                </radialGradient>
+            </defs>
+            <!-- Soft lotus ring -->
+            <g>
+                <ellipse class="lotus-petal" cx="60" cy="18" rx="10" ry="16"/>
+                <ellipse class="lotus-petal" cx="60" cy="102" rx="10" ry="16"/>
+                <ellipse class="lotus-petal" cx="18" cy="60" rx="16" ry="10"/>
+                <ellipse class="lotus-petal" cx="102" cy="60" rx="16" ry="10"/>
+                <ellipse class="lotus-petal" cx="30" cy="30" rx="9" ry="15" transform="rotate(-45 30 30)"/>
+                <ellipse class="lotus-petal" cx="90" cy="30" rx="9" ry="15" transform="rotate(45 90 30)"/>
+                <ellipse class="lotus-petal" cx="30" cy="90" rx="9" ry="15" transform="rotate(45 30 90)"/>
+                <ellipse class="lotus-petal" cx="90" cy="90" rx="9" ry="15" transform="rotate(-45 90 90)"/>
+            </g>
+            <circle cx="60" cy="60" r="34" fill="none" stroke="rgba(232,197,71,.4)" stroke-width="1.2"/>
+            <circle cx="60" cy="60" r="30" fill="rgba(61,6,6,.35)"/>
+            <!-- Sacred Om — shifted down for visual balance -->
+            <g transform="translate(0, 8)">
+                <text
+                    x="60"
+                    y="75"
+                    text-anchor="middle"
+                    font-family="'Noto Serif Devanagari', serif"
+                    font-size="56"
+                    font-weight="700"
+                    fill="url(#omGold)"
+                >ॐ</text>
+            </g>
+        </svg>
     </div>
 
     <div class="title">With the Blessings of Lord Ganesha</div>
 
-    <div class="name">Hetvik Sree Teja</div>
+    <div class="name">హేత్విక్ శ్రీ తేజ</div>
 
     <div class="message">
         <span class="sparkles">
@@ -658,9 +745,9 @@ button.reveal-btn:active{
     <div class="divider"></div>
 
     <div class="mother">
-        <span class="heart">♥</span>
+        <span class="heart">⚜️</span>
         Son of Teja
-        <span class="heart">♥</span>
+        <span class="heart">⚜️</span>
     </div>
 </div>
 
@@ -707,29 +794,33 @@ function stopMusic(){
 
 function spawnDiyas(){
     const field = document.getElementById("diyaField");
-    for(let i = 0; i < 8; i++){
+    for(let i = 0; i < 4; i++){
         const d = document.createElement("div");
         d.className = "diya";
         d.innerHTML = '<div class="diya-flame"></div><div class="diya-bowl"></div>';
-        d.style.left = (8 + Math.random() * 84) + "%";
-        d.style.animationDuration = (10 + Math.random() * 8) + "s";
-        d.style.animationDelay = (Math.random() * 8) + "s";
+        d.style.left = (12 + i * 22 + Math.random() * 8) + "%";
+        d.style.animationDuration = (14 + Math.random() * 6) + "s";
+        d.style.animationDelay = (i * 2.2) + "s";
         field.appendChild(d);
     }
 }
 
 function spawnPetals(){
-    for(let i = 0; i < 35; i++){
+    const layer = document.createElement("div");
+    layer.id = "petalLayer";
+    layer.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;";
+    document.body.appendChild(layer);
+
+    for(let i = 0; i < 14; i++){
         const p = document.createElement("div");
         p.className = "petal";
         p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = (6 + Math.random() * 9) + "s";
-        p.style.animationDelay = (Math.random() * 6) + "s";
-        p.style.width = (12 + Math.random() * 10) + "px";
-        p.style.height = (14 + Math.random() * 12) + "px";
-        const hue = 25 + Math.random() * 20;
-        p.style.background = `radial-gradient(ellipse at 40% 40%, hsl(${hue},95%,70%), hsl(${hue},85%,45%) 60%, hsl(${hue - 10},80%,30%))`;
-        document.body.appendChild(p);
+        p.style.animationDuration = (8 + Math.random() * 7) + "s";
+        p.style.animationDelay = (Math.random() * 5) + "s";
+        const size = 12 + (i % 4) * 3;
+        p.style.width = size + "px";
+        p.style.height = (size + 4) + "px";
+        layer.appendChild(p);
     }
 }
 
